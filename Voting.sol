@@ -57,11 +57,10 @@ contract Voting {
     return false;
   }
 
-  /*OUR MODIFICATIONS BELOW */
+  /*OUR NEW FUNCTIONS BELOW */
   function registerVoter(address account){
     Voter newVoter = voters[account];
     newVoter.registered = true;
-    Registered(account);
   }
 
   modifier registeredVoter() {

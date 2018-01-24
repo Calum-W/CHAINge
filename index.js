@@ -6,8 +6,12 @@ contractInstance = VotingContract.at('0x9cd95204ab37ff237d5bb701ca7be81653162229
 candidates = {"Rama": "candidate-1", "Nick": "candidate-2", "Jose": "candidate-3"}
 
 function voteForCandidate() {
+  if (validNumber == null) {
+    console.log("validNumber is null")
+    return
+  }
   candidateName = $("#candidate").val();
-  contractInstance.voteForCandidate(candidateName, {from: web3.eth.accounts[0]}, function() {
+  contractInstance.voteForCandidate(candidateName, {from: validNumber}, function() {
     let div_id = candidates[candidateName];
     $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
     alert("Your vote has been submitted")
@@ -23,30 +27,6 @@ $(document).ready(function() {
   }
 });
 
-// Votes for a candidate
-window.voteForCandidate = function(candidateID) {
-  console.log(validNumber);
-  try {
-    if (validNumber == null) {
-      document.getElementById("msg").innerHTML = "You need to be registered to vote.";
-    };
-
-    Voting.deployed().then(function(contractInstance) {
-      contractInstance.vote(candidateID, {from: validNumber}).then(function(transaction) {
-        transactionID = transaction.tx;
-        let div_id = candidates[candidateID];
-        return contractInstance.getCandidateVotes.call(candidateID).then(function(candidateVote) {
-          // alert("Your vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain!")
-          document.getElementById(div_id).innerHTML = candidateVote.toString();
-          document.getElementById("results-table").style.display = "";
-        });
-      });
-    });
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 // Registers a voter as they load a page
 window.validate = function() {
   let voterNumber = document.getElementById("account-number").value
@@ -56,7 +36,7 @@ window.validate = function() {
       for(var i=0; i < web3.eth.accounts.length; i++) {
         if (web3.eth.accounts[i] == voterNumber) {
           validNumber = web3.eth.accounts[i]
-          contractInstance.registerVoter(web3.eth.accounts[i], { from: web3.eth.accounts[0] }).then(function() {
+          contractInstance.registerVoter(web3.eth.accounts[i], { from: web3.eth.accounts[i] }).then(function() {
             return validNumber;
           });
         };
