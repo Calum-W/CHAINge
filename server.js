@@ -33,9 +33,30 @@ VotingContract.deploy({arguments: [candidates.map(asiiToHex)]})
 }).then((result) => {
   deployedContract = result
   deployedContract.setProvider(provider);
-  return deployedContract.methods.totalVotesFor(asciiToHex(''))
-}
-
-
-
-})
+}).then(() => {
+  const server = http.createServer((req, res) => {
+    res.writeHead(200);
+    let fileContents = '';
+    try {
+      fileContents = fs.readFileSync(__dirname + req.url, 'utf8');
+    } catch (e) {
+      fileContents = fs.readFileSync(__dirname + '/index.html', 'utf8');
+    }
+    res.end(
+      fileContents.replace(
+        /REPLACE_WITH_CONTRACT_ADDRESS/g,
+        deployedContract.options.address
+      ).replace(
+        /REPLACE_WITH_ABI_DEFINITION/g,
+        compiledCode.contracts[':Voting'].interface
+      )
+    );
+  });
+  server.on('clientError', (err, socket) => {
+    socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+  });
+  server.listen(8000, () => {
+    console.log('Listening on localhost:8000');
+  });
+});
+});
