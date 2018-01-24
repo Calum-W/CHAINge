@@ -10,6 +10,7 @@ function voteForCandidate() {
   contractInstance.voteForCandidate(candidateName, {from: web3.eth.accounts[0]}, function() {
     let div_id = candidates[candidateName];
     $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
+    alert("Your vote has been submitted")
   });
 }
 
@@ -21,3 +22,47 @@ $(document).ready(function() {
     $("#" + candidates[name]).html(val);
   }
 });
+
+// Votes for a candidate
+window.voteForCandidate = function(candidateID) {
+  console.log(validNumber);
+  try {
+    if (validNumber == null) {
+      document.getElementById("msg").innerHTML = "You need to be registered to vote.";
+    };
+
+    Voting.deployed().then(function(contractInstance) {
+      contractInstance.vote(candidateID, {from: validNumber}).then(function(transaction) {
+        transactionID = transaction.tx;
+        let div_id = candidates[candidateID];
+        return contractInstance.getCandidateVotes.call(candidateID).then(function(candidateVote) {
+          // alert("Your vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain!")
+          document.getElementById(div_id).innerHTML = candidateVote.toString();
+          document.getElementById("results-table").style.display = "";
+        });
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Registers a voter as they load a page
+window.validate = function() {
+  let voterNumber = document.getElementById("account-number").value
+
+  try {
+    Voting.deployed().then(function(contractInstance) {
+      for(var i=0; i < web3.eth.accounts.length; i++) {
+        if (web3.eth.accounts[i] == voterNumber) {
+          validNumber = web3.eth.accounts[i]
+          contractInstance.registerVoter(web3.eth.accounts[i], { from: web3.eth.accounts[0] }).then(function() {
+            return validNumber;
+          });
+        };
+      };
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}

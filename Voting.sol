@@ -2,6 +2,14 @@ pragma solidity ^0.4.18;
 // We have to specify what version of compiler this code will compile with
 
 contract Voting {
+
+  struct Voter {
+    bool voted;
+    bool registered;
+  }
+
+  mapping(address => Voter) public voters;
+
   /* mapping field below is equivalent to an associative array or hash.
   The key of the mapping is candidate name stored as type bytes32 and value is
   an unsigned integer to store the vote count
@@ -31,8 +39,12 @@ contract Voting {
 
   // This function increments the vote count for the specified candidate. This
   // is equivalent to casting a vote
-  function voteForCandidate(bytes32 candidate) public {
+  function voteForCandidate(bytes32 candidate) registeredVoter {
+    Voter currentVoter = voters[msg.sender];
+    if (currentVoter.voted) throw;
     require(validCandidate(candidate));
+
+    currentVoter.voted = true
     votesReceived[candidate] += 1;
   }
 
@@ -43,5 +55,17 @@ contract Voting {
       }
     }
     return false;
+  }
+
+  /*OUR MODIFICATIONS BELOW */
+  function registerVoter(address account){
+    Voter newVoter = voters[account];
+    newVoter.registered = true;
+    Registered(account);
+  }
+
+  modifier registeredVoter() {
+    if (!voters[msg.sender].registered) throw;
+    _;
   }
 }
