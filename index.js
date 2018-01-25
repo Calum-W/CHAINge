@@ -19,6 +19,7 @@ function voteForCandidate() {
 }
 
 $(document).ready(function() {
+  $("#vote-page").hide();
   candidateNames = Object.keys(candidates);
   for (var i = 0; i < candidateNames.length; i++) {
     let name = candidateNames[i];
@@ -27,22 +28,25 @@ $(document).ready(function() {
   }
 });
 
-// Registers a voter as they load a page
-window.validate = function() {
-  let voterNumber = document.getElementById("account-number").value
+$("#account-number-submit").click(function() {
+  enteredNumber = document.getElementById("account-number").value
+  enterAccountNumber(enteredNumber);
+})
 
-  try {
-    Voting.deployed().then(function(contractInstance) {
+enterAccountNumber = function(enteredNumber) {
+  let validNumber = null;
+
       for(var i=0; i < web3.eth.accounts.length; i++) {
-        if (web3.eth.accounts[i] == voterNumber) {
-          validNumber = web3.eth.accounts[i]
-          contractInstance.registerVoter(web3.eth.accounts[i], { from: web3.eth.accounts[i] }).then(function() {
-            return validNumber;
-          });
-        };
-      };
-    });
-  } catch (err) {
-    console.log(err);
-  }
+        if (web3.eth.accounts[i] == enteredNumber) {
+          validNumber = web3.eth.accounts[i];
+          console.log(i)
+          console.log("validNumber = " + validNumber)
+          console.log("contractInstance = " + contractInstance)
+          contractInstance.methods.registerVoter(validNumber, {from: validNumber});
+          $("vote-page").show();
+        }
+      }
+      if (validNumber == null) {
+        alert("That's not a valid account number");
+      }
 }
