@@ -41,9 +41,9 @@ contract Voting {
 
   // This function increments the vote count for the specified candidate. This
   // is equivalent to casting a vote
-  function voteForCandidate(bytes32 candidate) public registeredVoter {
+  function voteForCandidate(bytes32 candidate) public registeredVoter voterNotVoted {
     Voter storage currentVoter = voters[msg.sender];
-    require(currentVoter.voted);
+    require(!currentVoter.voted);
     require(validCandidate(candidate));
 
     currentVoter.voted = true;
@@ -67,7 +67,12 @@ contract Voting {
   }
 
   modifier registeredVoter() {
-    require(!voters[msg.sender].registered);
+    require(voters[msg.sender].registered);
+    _;
+  }
+
+  modifier voterNotVoted() {
+    require(!voters[msg.sender].voted);
     _;
   }
 }
