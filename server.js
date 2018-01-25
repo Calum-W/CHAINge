@@ -28,7 +28,7 @@ web3.eth.getAccounts().then((accounts) => {
 
 let deployedContract ;
 
-VotingContract.deploy({arguments: [candidates.map(asiiToHex)]})
+VotingContract.deploy({arguments: [candidates.map(asciiToHex)]})
 .send(function (error, transactionHash) {
 }).then((result) => {
   deployedContract = result
