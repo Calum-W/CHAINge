@@ -1,17 +1,20 @@
 {
   "name": "blockchain-practice",
   "version": "1.0.0",
-  "description": "",
+  "description": "contract.address = '0xa7234c640be080e7b6584989b57a29d941ebdf8d'",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Calum-W/blockchain-practice.git"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "ganache-cli": "^6.0.3",
-    "http_server": "^1.0.12",
-    "truffle": "^4.0.5",
-    "web3": "^0.20.2"
-  }
+  "bugs": {
+    "url": "https://github.com/Calum-W/blockchain-practice/issues"
+  },
+  "homepage": "https://github.com/Calum-W/blockchain-practice#readme"
 }
