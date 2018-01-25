@@ -33,35 +33,31 @@ contract('Voting', function (accounts) {
   //   assert.equal(poll.totalVotesFor("Ellie"), 1);
   // });
 
-  it("allows a user to register as a voter", function() {
-  var currentElection;
-  var loggedEvent;
+  it("allows a user to register as a voter", async function() {
+    var loggedEvent;
+    var voter = accounts[0];
 
-  return Voting.new(candidates).then(function(instance) {
-    currentElection = instance;
-    return instance.registerVoter(accounts[0]);
-  }).then(function(result) {
-    loggedEvent = result.logs[0].event;
-    assert.equal(loggedEvent, "Registered", 'Voter has not been registered')
+    var registration = await poll.registerVoter(voter);
+    loggedEvent = registration.logs[0].event;
+    assert.equal(loggedEvent, "Registered", 'Voter not registered')
   });
-});
 
-it('shows accurate number of cast votes for a candidate', function() {
-  var currentElection;
-  i = Math.floor(Math.random() * candidates.length)
-  candidate = candidates[i]
+  it('shows the number of cast votes for a candidate', function() {
+    var currentElection;
+    i = Math.floor(Math.random() * candidates.length)
+    candidate = candidates[i]
 
-  return Voting.new(candidates).then(function(instance) {
-    currentElection = instance;
-    return instance.registerVoter(accounts[0]);
-  }).then(function(result) {
-    return currentElection.voteForCandidate(candidate);
-  }).then(function() {
-    return currentElection.totalVotesFor(candidate);
-  }).then(function(votes) {
-    assert.equal(votes.toNumber(), 1, 'Cannot find cast votes for candidate')
+    return Voting.new(candidates).then(function(instance) {
+      currentElection = instance;
+      return instance.registerVoter(accounts[0]);
+    }).then(function(result) {
+      return currentElection.voteForCandidate(candidate);
+    }).then(function() {
+      return currentElection.totalVotesFor(candidate);
+    }).then(function(votes) {
+      assert.equal(votes.toNumber(), 1, 'Cannot find cast votes for candidate')
+    });
   });
-});
 
   // it('initializes with a candidate list', async function() {
   //   console.log(poll)
