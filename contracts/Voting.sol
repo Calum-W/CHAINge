@@ -8,6 +8,8 @@ contract Voting {
     bool registered;
   }
 
+  event Registered(address voter);
+
   mapping(address => Voter) public voters;
 
   /* mapping field below is equivalent to an associative array or hash.
@@ -61,6 +63,7 @@ contract Voting {
   function registerVoter(address account){
     Voter newVoter = voters[account];
     newVoter.registered = true;
+    Registered(account);
   }
 
   modifier registeredVoter() {
