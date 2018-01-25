@@ -46,6 +46,23 @@ contract('Voting', function (accounts) {
   });
 });
 
+it('shows accurate number of cast votes for a candidate', function() {
+  var currentElection;
+  i = Math.floor(Math.random() * candidates.length)
+  candidate = candidates[i]
+
+  return Voting.new(candidates).then(function(instance) {
+    currentElection = instance;
+    return instance.registerVoter(accounts[0]);
+  }).then(function(result) {
+    return currentElection.voteForCandidate(candidate);
+  }).then(function() {
+    return currentElection.totalVotesFor(candidate);
+  }).then(function(votes) {
+    assert.equal(votes.toNumber(), 1, 'Cannot find cast votes for candidate')
+  });
+});
+
   // it('initializes with a candidate list', async function() {
   //   console.log(poll)
   //   assert.equal(await poll.candidateList, ["Ellie", "Nick", "Joe"]);
