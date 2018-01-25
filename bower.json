@@ -1,0 +1,17 @@
+{
+  "name": "blockchain-practice",
+  "description": "contract.address = '0xa7234c640be080e7b6584989b57a29d941ebdf8d'",
+  "main": "index.js",
+  "authors": [
+    "Valentina <valentina.rmo@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Calum-W/blockchain-practice",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

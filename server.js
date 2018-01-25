@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const Web3 = require('web3');
 const solc = require('solc');
 const fs = require('fs');
@@ -8,17 +10,19 @@ const web3 = new Web3(provider);
 const asciiToHex = Web3.utils.asciiToHex;
 
 
-const candidates = [];
+const candidates = ['Charles', 'Nick', 'Joe'];
 
-do {
-candidateName = prompt("Please give candidate name (three candidates)");
-candidates.push(candidateName)
-} while (candidates.length < 3)
+// do {
+// candidateName = prompt("Please give candidate name (three candidates)");
+// candidates.push(candidateName)
+// } while (candidates.length < 3)
 
+console.log(candidates)
 
 web3.eth.getAccounts().then((accounts) => {
   const code = fs.readFileSync('./voting.sol').toString();
   const compiledCode = solc.compile(code);
+
 
   const compiledcontract = compiledCode.contracts[':Voting'];
   const byteCode = compiledcontract.bytecode;
@@ -26,7 +30,7 @@ web3.eth.getAccounts().then((accounts) => {
 
   const VotingContract = new web3.eth.Contract(abiDefinition, {data: byteCode, from: accounts[0], gas: 4700000})
 
-let deployedContract ;
+let deployedContract = null ;
 
 VotingContract.deploy({arguments: [candidates.map(asciiToHex)]})
 .send(function (error, transactionHash) {

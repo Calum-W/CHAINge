@@ -3,5 +3,5 @@ asciiToHex = Web3.utils.asciiToHex;
 contractInstance = new web3.eth.Contract(ABI_DEFINITION, CONTRACT_ADDRESS);
 
 
-console.log(server.candidates[0])
-// candidates = {candidates[0]: "candidate-1"}
+
+candidates = {'Charles': "candidate-1", 'Nick': 'candidate-2', 'Joe': 'candidate-3'}
