@@ -44,7 +44,7 @@ contract Voting {
     if (currentVoter.voted) throw;
     require(validCandidate(candidate));
 
-    currentVoter.voted = true
+    currentVoter.voted = true;
     votesReceived[candidate] += 1;
   }
 
