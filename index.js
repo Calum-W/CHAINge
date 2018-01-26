@@ -10,13 +10,13 @@ validNumber = null
 function voteForCandidate() {
   if (validNumber == null) {
     console.log("validNumber is null")
+    alert("Please enter your account number to register before voting")
     return
   }
   candidateName = $("#candidate").val();
   contractInstance.voteForCandidate(candidateName, {from: validNumber}, function() {
     let div_id = candidates[candidateName];
     $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
-    alert("Your vote has been submitted")
   });
 }
 
