@@ -6,6 +6,7 @@ VotingContract = web3.eth.contract(abi);
 contractInstance = VotingContract.at('0x070f7153632a3bd880e996b5b45de1a9a887c467');
 candidates = {"Cal": "candidate-1", "Joe": "candidate-2", "Ellie": "candidate-3", "Charles": "candidate-4", "Nick": "candidate-5", "Vale": "candidate-6"};
 validNumber = null
+usersVoted = []
 
 function voteForCandidate() {
   if (validNumber == null) {
@@ -15,9 +16,13 @@ function voteForCandidate() {
   }
   candidateName = $("#candidate").val();
   contractInstance.voteForCandidate(candidateName, {from: validNumber}, function() {
-    let div_id = candidates[candidateName];
-    $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
-    $("#candidate").val("")
+    if (!checkForSecondVotes(candidateName)) {
+      let div_id = candidates[candidateName];
+      $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
+      $("#candidate").val("")
+    } else {
+      alert("You have already voted")
+    }
   });
 }
 
@@ -48,4 +53,13 @@ function enterAccountNumber(enteredNumber) {
       if (validNumber == null) {
         alert("That's not a valid account number");
       }
+}
+
+function checkForSecondVotes(voter) {
+  for (i = 0; i < usersVoted.length; i ++) {
+    if (usersVoted[i] == voter) {
+      return true
+    }
+  }
+      usersVoted.push(voter);
 }
