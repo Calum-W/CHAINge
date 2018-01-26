@@ -1,0 +1,42 @@
+#back {
+  background-color: #003253;
+}
+
+#title {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 200%;
+  font-style: bold;
+  font-family: 'Montserrat', sans-serif;
+  color: #F1F0C7;
+}
+
+thead {
+  font-style: bold;
+  font-family: 'Montserrat', sans-serif;
+  color: #F1F0C7;
+  background-color: #A5C0C5;
+}
+
+tbody {
+  font-style:normal;
+  font-family: 'Montserrat', sans-serif;
+  color: #F1F0C7;
+  background-color: #F88932;
+}
+
+.input {
+  transition: width .35s linear;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 20px;
+  width: 150px;
+  background-color: ;
+}
+
+.input-focused {
+  width: 240px;
+}
