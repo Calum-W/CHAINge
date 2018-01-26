@@ -39,9 +39,10 @@ function enterAccountNumber(enteredNumber) {
       for(var i=0; i < web3.eth.accounts.length; i++) {
         if (web3.eth.accounts[i] == enteredNumber) {
           validNumber = web3.eth.accounts[i];
-          console.log(i)
-          console.log("validNumber = " + validNumber)
-          console.log("contractInstance = " + contractInstance)
+          $("#vote-page").show()
+          // console.log(i)
+          // console.log("validNumber = " + validNumber)
+          // console.log("contractInstance = " + contractInstance)
           contractInstance.registerVoter(validNumber, {from: validNumber});
         }
       }
