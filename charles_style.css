@@ -1,5 +1,5 @@
 #back {
-  background-color: #003253;
+  background-color: #A5C0C5;
 }
 
 #title {
@@ -12,11 +12,19 @@
   color: #F1F0C7;
 }
 
+#logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50%;
+  max-height: 50%;
+}
+
 thead {
   font-style: bold;
   font-family: 'Montserrat', sans-serif;
   color: #F1F0C7;
-  background-color: #A5C0C5;
+  background-color: #003253;
 }
 
 tbody {
