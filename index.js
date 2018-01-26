@@ -1,9 +1,11 @@
+
 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-abi = JSON.parse('[{"constant":false,"inputs":[{"name":"candidate", "type":"bytes32"}], "name":"totalVotesFor","outputs":[{"name":"","type":"uint8"}], "payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"candidate","type":"bytes32"}], "name":"validCandidate","outputs":[{"name":"", "type":"bool"}], "payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"votesReceived","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"x","type":"bytes32"}], "name":"bytes32ToString", "outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"", "type":"uint256"}],"name":"candidateList","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"voteForCandidate","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"contractOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"inputs":[{"name":"candidateNames","type":"bytes32[]"}],"payable":false,"type":"constructor"}]')
+abi = JSON.parse('[{"constant":true,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"totalVotesFor","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"account","type":"address"}],"name":"registerVoter","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"validCandidate","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"votesReceived","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"voted","type":"bool"},{"name":"registered","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"candidateList","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"candidate","type":"bytes32"}],"name":"voteForCandidate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"candidateNames","type":"bytes32[]"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"voter","type":"address"}],"name":"Registered","type":"event"}]')
 VotingContract = web3.eth.contract(abi);
 // In your nodejs console, execute contractInstance.address to get the address at which the contract is deployed and change the line below to use your deployed address
-contractInstance = VotingContract.at('0x9cd95204ab37ff237d5bb701ca7be81653162229');
-candidates = {"Rama": "candidate-1", "Nick": "candidate-2", "Jose": "candidate-3"}
+contractInstance = VotingContract.at('0xd3bcb506ae613205889af5b39c7f5c736b32f66f');
+candidates = {"Rama": "candidate-1", "Nick": "candidate-2", "Jose": "candidate-3"};
+validNumber = null
 
 function voteForCandidate() {
   if (validNumber == null) {
@@ -19,7 +21,6 @@ function voteForCandidate() {
 }
 
 $(document).ready(function() {
-  $("#vote-page").hide();
   candidateNames = Object.keys(candidates);
   for (var i = 0; i < candidateNames.length; i++) {
     let name = candidateNames[i];
@@ -33,8 +34,7 @@ $("#account-number-submit").click(function() {
   enterAccountNumber(enteredNumber);
 })
 
-enterAccountNumber = function(enteredNumber) {
-  let validNumber = null;
+function enterAccountNumber(enteredNumber) {
 
       for(var i=0; i < web3.eth.accounts.length; i++) {
         if (web3.eth.accounts[i] == enteredNumber) {
@@ -42,8 +42,7 @@ enterAccountNumber = function(enteredNumber) {
           console.log(i)
           console.log("validNumber = " + validNumber)
           console.log("contractInstance = " + contractInstance)
-          contractInstance.methods.registerVoter(validNumber, {from: validNumber});
-          $("vote-page").show();
+          contractInstance.registerVoter(validNumber, {from: validNumber});
         }
       }
       if (validNumber == null) {
