@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hello World DApp</title>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <title>Vote for CHAINge</title>
+  <link rel="stylesheet" type="text/css" href="charles_style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 </head>
-<body class="container">
+<body id="back" class="container">
+  <h1 id="title">Vote for CHAINge</h1>
   <input type="text" id="account-number" placeholder="Account number" />
   <a href="#" id="account-number-submit" class="btn btn-primary">Register</a>
   <div id="vote-page" hidden>
@@ -19,21 +22,33 @@
         </thead>
         <tbody>
           <tr>
-            <td>Rama</td>
+            <td>Cal</td>
             <td id="candidate-1"></td>
           </tr>
           <tr>
-            <td>Nick</td>
+            <td>Joe</td>
             <td id="candidate-2"></td>
           </tr>
           <tr>
-            <td>Jose</td>
+            <td>Ellie</td>
             <td id="candidate-3"></td>
+          </tr>
+          <tr>
+            <td>Charles</td>
+            <td id="candidate-4"></td>
+          </tr>
+          <tr>
+            <td>Nick</td>
+            <td id="candidate-5"></td>
+          </tr>
+          <tr>
+            <td>Vale</td>
+            <td id="candidate-6"></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <input type="text" id="candidate" />
+    <input class="input" type="text" id="candidate" />
     <a href="#" onclick="voteForCandidate()" class="btn btn-primary">Vote</a>
   </div>
 </body>
