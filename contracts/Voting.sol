@@ -24,9 +24,9 @@ contract Voting {
     return votesReceived[candidate];
   }
 
-  function voteForCandidate(bytes32 candidate) registeredVoter {
-    Voter currentVoter = voters[msg.sender];
-    if (currentVoter.voted) throw;
+  function voteForCandidate(bytes32 candidate) public registeredVoter {
+    Voter storage currentVoter = voters[msg.sender];
+    require(!currentVoter.voted);
     require(validCandidate(candidate));
 
     currentVoter.voted = true;
@@ -42,14 +42,14 @@ contract Voting {
     return false;
   }
 
-  function registerVoter(address account) {
-    Voter newVoter = voters[account];
+  function registerVoter(address account) public {
+    Voter storage newVoter = voters[account];
     newVoter.registered = true;
     Registered(account);
   }
 
   modifier registeredVoter() {
-    if (!voters[msg.sender].registered) throw;
+    require(voters[msg.sender].registered);
     _;
   }
 }
